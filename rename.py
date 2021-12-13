@@ -16,7 +16,7 @@ def rename_text(word: str, new_name: str, file_name: str = "test.py"):
     # Read the file
     text = file.read()
     # Replace the word with the new name
-    text = text.replace(word, new_name)
+    text = text.replace(" "+word+" ", " "+new_name+" ")
     # Write the file
     file.seek(0)
     file.write(text)
