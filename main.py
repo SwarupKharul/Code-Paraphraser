@@ -1,16 +1,18 @@
 from tokenize import word_tokenize
+from rename import rename
 
 # clear log.txt
 with open('log.txt', 'w') as f:
     f.write('')
 
-example_code_snippet = """
-# This is a comment
-def example_function(param1 = 60, param2 = 50):
-    string = " this is a string "
-    print(param1)
-    print(param2)
-"""
-print(word_tokenize(example_code_snippet, test=True))
+# read a code snippet from test.py
+with open('test.py', 'r') as f:
+    example_code_snippet = f.read()
+
+
+words = word_tokenize(example_code_snippet, test=True)
+print(words)
+
+rename(words)
 
 
