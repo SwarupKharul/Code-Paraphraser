@@ -41,6 +41,22 @@ def tokenize_words(code: list) -> list:
 def filter_empty_tokens(tokens: list) -> list:
     return [token for token in tokens if token]
 
+# Filter out multi-line comments
+def filter_multiline_comments(file: str = "test.py") -> list:
+    comments = []
+    # Read the file
+    with open(file, 'r') as f:
+        code = f.read()
+    # get the docstring and store it in comments
+    code = code.split('"""')
+    new_code = code[0]
+    if len(code) > 1:
+        for i in range(1, len(code), 2):
+            comments.append(code[i])
+        for i in range(2, len(code), 2):
+            new_code += code[i]
+    return new_code, comments
+
 # Filter out comments
 @print_function_name
 def filter_comments(tokens: list) -> list:
@@ -89,6 +105,7 @@ def filter_keywords(tokens) -> list:
 def word_tokenize(code, test = False) -> set:
     global debug
     debug = test
+    code, multiline_comments = filter_multiline_comments()
     tokens = tokenize_lines(code)
     tokens, comments = filter_comments(tokens)
     tokens = filter_strings(tokens)
