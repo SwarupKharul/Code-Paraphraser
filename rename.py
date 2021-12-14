@@ -15,8 +15,10 @@ def rename_text(word: str, new_name: str, file_name: str = "test.py"):
     file = open(file_name, "r+")
     # Read the file
     text = file.read()
+    # expression to find word not embedded in another word
+    text_pattern = re.compile(r'(\b|\[|\(|\{)' + word + r'(\b|\]|\)|\}|\:|\,|\;|\?|\!|\s|\.)')
     # Replace the word with the new name
-    text = text.replace(" "+word+" ", " "+new_name+" ")
+    text = re.sub(text_pattern, r'\1' + new_name + r'\2', text)
     # Write the file
     file.seek(0)
     file.write(text)
