@@ -1,0 +1,10 @@
+log.txt
+test.py
+example.py
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.vscode/
