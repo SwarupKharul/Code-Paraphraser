@@ -1,19 +1,19 @@
 
 
 Calling tokenize_lines
-Tokens: # This is a comment
+Tokens: # This is A comment
 def example_function(param1 = 60, param2 = 50):
     
-    string = " this is a string "
+    string = " this is A string "
     print(param1)
     print(param2)
 
 Calling filter_comments
-Tokens: ['# This is a comment', 'def example_function(param1 = 60, param2 = 50):', 'string = " this is a string "', 'print(param1)', 'print(param2)']
+Tokens: ['# This is A comment', 'def example_function(param1 = 60, param2 = 50):', 'string = " this is A string "', 'print(param1)', 'print(param2)']
 
 Calling filter_strings
-Tokens: ['def example_function(param1 = 60, param2 = 50):', 'string = " this is a string "', 'print(param1)', 'print(param2)']
-string = " this is a string " replaced with string =  
+Tokens: ['def example_function(param1 = 60, param2 = 50):', 'string = " this is A string "', 'print(param1)', 'print(param2)']
+string = " this is A string " replaced with string =  
 
 Tokens: ['def example_function(param1 = 60, param2 = 50):', 'string =  ', 'print(param1)', 'print(param2)']
 
