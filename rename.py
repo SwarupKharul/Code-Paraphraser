@@ -1,13 +1,18 @@
-# Funtion to rename the words 
+# Funtion to rename the words
 import string
 import random
+import re
+
 
 # function to randomly generate a string of given string length
-def random_string(word : str) -> str:
+def random_string(word: str) -> str:
     string_length = len(word)
     """ Generate a random string of fixed length """
-    res = ''.join(random.choices(string.ascii_lowercase + string.digits, k = string_length))
+    res = "".join(
+        random.choices(string.ascii_lowercase + string.digits, k=string_length)
+    )
     return str(res)
+
 
 # function to rename a word in a file
 def rename_text(word: str, new_name: str, file_name: str = "test.py"):
@@ -16,17 +21,20 @@ def rename_text(word: str, new_name: str, file_name: str = "test.py"):
     # Read the file
     text = file.read()
     # expression to find word not embedded in another word
-    text_pattern = re.compile(r'(\b|\[|\(|\{)' + word + r'(\b|\]|\)|\}|\:|\,|\;|\?|\!|\s|\.)')
+    text_pattern = re.compile(
+        r"(\b|\[|\(|\{)" + word + r"(\b|\]|\)|\}|\:|\,|\;|\?|\!|\s|\.)"
+    )
     # Replace the word with the new name
-    text = re.sub(text_pattern, r'\1' + new_name + r'\2', text)
+    text = re.sub(text_pattern, r"\1" + new_name + r"\2", text)
     # Write the file
     file.seek(0)
     file.write(text)
     file.truncate()
     file.close()
 
+
 # function to rename the words
-def rename(words: list):
+def rename(words: set) -> set:
     for word in words:
         # Ask user for the new name
         new_name = input(f"Enter the new name for the word {word}: ")
