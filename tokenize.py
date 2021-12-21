@@ -1,26 +1,7 @@
 # Functions for tokenizing a code snippet
 import re
-
-from languages import language_python
-
-keywords = language_python.get_python_keywords()
-
-# Logger function
-def logger(message: str) -> None:
-    with open("log.txt", "a") as f:
-        f.write(message)
-
-
-""" Make a decorator to log in a different file which function is being called
-This is used for debugging and should be printed only when debug = True """
-def print_function_name(func):
-    def wrapper(*args, **kwargs):
-        if debug:
-            logger(f"\n\nCalling {func.__name__}")
-            logger(f"\nTokens: {args[0]}")
-        return func(*args, **kwargs)
-
-    return wrapper
+from utility import print_function_name, logger
+from languages import *
 
 
 # Tokenize snippet
@@ -45,35 +26,6 @@ def tokenize_words(code: list) -> list:
 @print_function_name
 def filter_empty_tokens(tokens: list) -> list:
     return [token for token in tokens if token]
-
-
-# Filter out multi-line comments
-def filter_multiline_comments(file: str = "test.py") -> list:
-    comments = []
-    # Read the file
-    with open(file, "r") as f:
-        code = f.read()
-    # get the docstring and store it in comments
-    code = code.split('"""')
-    new_code = code[0]
-    if len(code) > 1:
-        for i in range(1, len(code), 2):
-            comments.append(code[i])
-        for i in range(2, len(code), 2):
-            new_code += code[i]
-    return new_code, comments
-
-
-# Filter out comments
-@print_function_name
-def filter_comments(tokens: list) -> list:
-    comments = []
-    for token in tokens:
-        if token.startswith("#"):
-            comments.append(token)
-    for comment in comments:
-        tokens.remove(comment)
-    return tokens, comments
 
 
 def find_strings(line: str) -> list:
@@ -107,22 +59,15 @@ def filter_numbers(tokens) -> list:
     return [token for token in tokens if not token.isdigit()]
 
 
-# Filter out keywords
-@print_function_name
-def filter_keywords(tokens) -> list:
-    return [token for token in tokens if not token in keywords]
-
-
 # Filter all above functions
-def word_tokenize(code, test=False) -> set:
-    global debug
-    debug = test
-    code, multiline_comments = filter_multiline_comments()
+def word_tokenize(code, language) -> set:
+    language_function = eval(f"{language}")
+    code, multiline_comments = language_function.filter_multiline_comments(code)
     tokens = tokenize_lines(code)
-    tokens, comments = filter_comments(tokens)
+    tokens, comments = language_function.filter_comments(tokens)
     tokens = filter_strings(tokens)
     tokens = tokenize_words(tokens)
     tokens = filter_empty_tokens(tokens)
     tokens = filter_numbers(tokens)
-    tokens = filter_keywords(tokens)
+    tokens = language_function.filter_keywords(tokens)
     return set(tokens)

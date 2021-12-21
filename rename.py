@@ -3,6 +3,7 @@ import string
 import random
 import re
 
+
 # function to randomly generate a string of given string length
 def random_string(word: str) -> str:
     string_length = len(word)
@@ -33,7 +34,7 @@ def rename_text(word: str, new_name: str, file_name: str = "test.py"):
 
 
 # function to rename the words
-def rename(words: list):
+def rename(words: set) -> set:
     for word in words:
         # Ask user for the new name
         new_name = input(f"Enter the new name for the word {word}: ")
