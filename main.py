@@ -10,7 +10,7 @@ with open("log.txt", "w") as f:
 try:
     file_name = sys.argv[1]
 except IndexError:
-    file_name = "test.py"
+    file_name = "test/test.py"
 
 # function to detect the language
 def detect_language(file_name: str) -> str:
